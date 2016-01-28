@@ -26,6 +26,10 @@ After extracting the files, you might want to take a look at the data. The follo
 python show_random_picture.py
 ```
 
+# Contribution
+
+Please follow the guide in [CONTRIBUTING.md](CONTRIBUTING.md)
+
 # References
 
 1. [CIFAR-10 dataset](http://www.cs.toronto.edu/~kriz/cifar.html)
