@@ -13,17 +13,28 @@ brew install p7zip
 python src/check_dataset.py
 ```
 
-After downloading 7zip, you should extract the `.7z` files to `testdata` folder and `traindata` folder. Similary, these folders will not be checked in. The extraction should take around 1 to 2 hour. You should be able to extract these folders easily in Windows. You can use the following command if you're using MAC OS X or Linux:
+After downloading 7zip, we extract the `.7z` files to `testdata` folder and `traindata` folder. Similary, these folders will not be checked in. You should be able to extract these folders easily in Windows. You can use the following command if you're using MAC OS X or Linux:
 
 ```Shell
+# The extraction should take around 1 to 2 hour
 7z e -y -otraindata dataset/train.7z
 7z e -y -otestdata dataset/test.7z
 ```
 
-After extracting the files, you might want to take a look at the data. The following command will open 10 random images from `traindata` folder:
+After extracting the files, we might want to take a look at the data. The following command will open 10 random images from `traindata` folder:
 
 ```Shell
 python src/show_random_picture.py
+```
+
+Now we want to change all images to matrices, so that we can feed these matrices to our awesome classifier. We have have wrote a script to change an image to a three dimensional `32 X 32 X 3` matrix, so the whole dataset is represented in a four dimensional matrix (with an additional dimension for the number of images). The script will also turn train labels in .csv file format to a one dimensional array. We use the following command to convert images to matrices: 
+
+```Shell
+# The conversion will take around 5-10 minutes
+# After the conversion, we will the two more .pickle file at root directory
+# cifar10_test.pickle should be around 3.69GB
+# cifar10_train.pickle should be around 614.8MB
+python src/images_to_matrices.py
 ```
 
 # Contribution
