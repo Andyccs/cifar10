@@ -13,11 +13,17 @@ brew install p7zip
 python check_dataset.py
 ```
 
-After downloading 7zip, you should extract the `.7z` files to `testdata` folder and `traindata` folder. Similary, these folders will not be checked in. The extraction should take around 5 to 10 minutes. You should be able to extract these folders easily in Windows (I suppose). You can use the following command if you're using MAC OS X or Linux:
+After downloading 7zip, you should extract the `.7z` files to `testdata` folder and `traindata` folder. Similary, these folders will not be checked in. The extraction should take around 1 to 2 hour. You should be able to extract these folders easily in Windows. You can use the following command if you're using MAC OS X or Linux:
 
 ```Shell
 7z e -y -otraindata dataset/train.7z
 7z e -y -otestdata dataset/test.7z
+```
+
+After extracting the files, you might want to take a look at the data. The following command will open 10 random images from `traindata` folder:
+
+```Shell
+python show_random_picture.py
 ```
 
 # References
