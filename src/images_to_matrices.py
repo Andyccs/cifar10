@@ -3,6 +3,7 @@ import numpy as np
 from scipy import ndimage
 import cPickle as pickle
 
+
 def images_to_matrices(data_dir):
   image_files = os.listdir(data_dir)
 
@@ -30,9 +31,10 @@ def images_to_matrices(data_dir):
     except IOError as e:
       print 'Could not read:', image_file, ':', e, '- it\'s ok, skipping.'
 
-    print('Complete %.2f %% for %s' % (float(i) / num_images * 100.0, data_dir) )
+    print('Complete %.2f %% for %s' % (float(i) / num_images * 100.0, data_dir))
 
   return dataset
+
 
 def csv_to_label_matrices(filename):
   class_name = {
@@ -48,10 +50,11 @@ def csv_to_label_matrices(filename):
       'truck': 10
   }
 
-  data = np.genfromtxt(filename, dtype=None, delimiter=',', skip_header=1) 
-  labels = [ class_name[d[1]] for d in data ]
+  data = np.genfromtxt(filename, dtype=None, delimiter=',', skip_header=1)
+  labels = [class_name[d[1]] for d in data]
   labels = np.array(labels)
   return labels
+
 
 if __name__ == '__main__':
   train_data_dir = 'traindata'
@@ -64,16 +67,13 @@ if __name__ == '__main__':
   test_dataset = images_to_matrices(test_data_dir)
 
   ## Save all matrices to a pickle file so that we can use them later
-  
+
   # Save train data and labels
   train_pickle_file = 'cifar10_train.pickle'
 
   try:
     train_file = open(train_pickle_file, 'wb')
-    save = {
-      'train_dataset': train_dataset,
-      'train_labels': train_labels
-      }
+    save = {'train_dataset': train_dataset, 'train_labels': train_labels}
     pickle.dump(save, train_file, pickle.HIGHEST_PROTOCOL)
     train_file.close()
   except Exception as e:
@@ -93,12 +93,12 @@ if __name__ == '__main__':
   try:
     test_file = open(test_pickle_file, 'wb')
     save = {
-      'test_dataset_1': test_dataset_1,
-      'test_dataset_2': test_dataset_2,
-      'test_dataset_3': test_dataset_3,
-      'test_dataset_4': test_dataset_4,
-      'test_dataset_5': test_dataset_5,
-      'test_dataset_6': test_dataset_6
+        'test_dataset_1': test_dataset_1,
+        'test_dataset_2': test_dataset_2,
+        'test_dataset_3': test_dataset_3,
+        'test_dataset_4': test_dataset_4,
+        'test_dataset_5': test_dataset_5,
+        'test_dataset_6': test_dataset_6
     }
     pickle.dump(save, test_file, pickle.HIGHEST_PROTOCOL)
     test_file.close()

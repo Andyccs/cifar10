@@ -11,8 +11,8 @@ def check_dataset():
   dataset_dir = 'dataset/'
 
   files = [
-      ('sampleSubmission.csv', 3188904), ('test.7z', 639374249),
-      ('train.7z', 109723070), ('trainLabels.csv', 588903)
+      ('sampleSubmission.csv', 3188904), ('test.7z', 639374249), ('train.7z', 109723070),
+      ('trainLabels.csv', 588903)
   ]
 
   for f in files:

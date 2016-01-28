@@ -4,7 +4,13 @@ CZ4041 Machine Learning Assignment
 
 # Getting Started
 
-You need to login to Kaggle and download the dataset from [Kaggle Competition](https://www.kaggle.com/c/cifar-10). Next, you should put all the downloaded files, i.e. `sampleSubmission.csv`, `test.7z`, `train.7z`, and `trainLabels.csv`, to `dataset` folder. This folder will not be checked in to Git version control. To extract the `.7z` files, you need to [download 7zip in the official website](http://www.7-zip.org/download.html), or use brew to install it if you're using MAC OS X:
+Let's start by installing all required modules for this project. We install TensorFlow by following [the guide from official website](https://www.tensorflow.org/versions/0.6.0/get_started/os_setup.html). Then, we install all other modules using the following commands:
+
+```Shell
+pip install -r requirements.txt
+```
+
+Next, you need to login to Kaggle and download the dataset from [Kaggle Competition](https://www.kaggle.com/c/cifar-10). Next, you should put all the downloaded files, i.e. `sampleSubmission.csv`, `test.7z`, `train.7z`, and `trainLabels.csv`, to `dataset` folder. This folder will not be checked in to Git version control. To extract the `.7z` files, you need to [download 7zip in the official website](http://www.7-zip.org/download.html), or use brew to install it if you're using MAC OS X:
 
 ```Shell
 brew install p7zip
