@@ -43,6 +43,28 @@ Now we want to change all images to matrices, so that we can feed these matrices
 python src/images_to_matrices.py
 ```
 
+At this point, we already have compressed data in `dataset` folder, images in `testdata` and `traindata` folder, and two `.pickle` files at the root directory. Our folder structure should look like the following:
+
+```
+| cifar10
+| -- dataset
+| ---- sampleSubmission.csv
+| ---- test.7z
+| ---- train.7z
+| ---- trainLabels.csv
+| -- src
+| ---- ....
+| -- testdata
+| ---- "a bunch of images"
+| -- traindata
+| ----- "a bunch of images"
+| cifar10_test.pickle
+| cifar10_train.picle
+| ...
+```
+
+We are ready to start our development now. 
+
 # Contribution
 
 Please follow the guide in [CONTRIBUTING.md](CONTRIBUTING.md)
