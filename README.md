@@ -8,6 +8,9 @@ You need to login to Kaggle and download the dataset from [Kaggle Competition](h
 
 ```Shell
 brew install p7zip
+
+# To check whether you finished your download
+python check_dataset.py
 ```
 
 After downloading 7zip, you should extract the `.7z` files to `testdata` folder and `traindata` folder. Similary, these folders will not be checked in. The extraction should take around 5 to 10 minutes. You should be able to extract these folders easily in Windows (I suppose). You can use the following command if you're using MAC OS X or Linux:
