@@ -50,8 +50,8 @@ class_name = {
     'dog': 5,
     'frog': 6,
     'horse': 7,
-    'ship': 9,
-    'truck': 10
+    'ship': 8,
+    'truck': 9
 }
 
 
@@ -65,6 +65,26 @@ def csv_to_label_matrices(filename):
   labels = [class_name[d[1]] for d in data]
   labels = np.array(labels)
   return labels
+
+
+class_value = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship',
+               'truck']
+
+
+def label_matrices_to_csv(labels, filename):
+  """
+  Convert a one dimentional array of integer value to a csv file with (index, class_name) pair in
+  each row
+  """
+  result = []
+  for i in range(labels.shape[0]):
+    index = i + 1
+    label = labels[i]
+    label_string = class_value[label]
+    result.append([index, label_string])
+
+  result = np.asarray(result)
+  np.savetxt(filename, result, fmt='%s', delimiter=",", header='id,label', comments='')
 
 
 train_pickle_file = 'cifar10_train.pickle'
@@ -122,7 +142,7 @@ def extract_data():
     raise
 
 
-def load_training_data():
+def load_train_data():
   """
   Load all matrices for training data from pickle file that we have saved 
   using extract_data() function
@@ -132,7 +152,6 @@ def load_training_data():
     train_dataset = save['train_dataset']
     train_labels = save['train_labels']
     del save  # hint to help gc free up memory
-    print 'Training set', train_dataset.shape, train_labels.shape
     return train_dataset, train_labels
 
 
@@ -152,7 +171,6 @@ def load_test_data():
     del save
     test_dataset = np.concatenate((test_dataset_1, test_dataset_2, test_dataset_3, test_dataset_4,
                                    test_dataset_5, test_dataset_6))
-    print 'Testing set', test_dataset.shape
     return test_dataset
 
 
@@ -160,7 +178,7 @@ def load_data():
   """
   Load all matrices for training and testing data data from pickle file
   """
-  train_dataset, train_labels = load_training_data()
+  train_dataset, train_labels = load_train_data()
   test_dataset = load_test_data()
   return train_dataset, train_labels, test_dataset
 
