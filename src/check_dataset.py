@@ -1,13 +1,15 @@
-# Check whether the following files have correct number of bytes:
-# 1. dataset/sampleSubmission.csv
-# 2. dataset/test.7z
-# 3. dataset/train.7z
-# 4. dataset/trainLabels.csv
-
 import os
 
 
 def check_dataset():
+  """
+  Check whether the following files have correct number of bytes:
+  1. dataset/sampleSubmission.csv
+  2. dataset/test.7z
+  3. dataset/train.7z
+  4. dataset/trainLabels.csv
+  """
+
   dataset_dir = 'dataset/'
 
   files = [

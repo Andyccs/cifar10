@@ -5,6 +5,11 @@ import cPickle as pickle
 
 
 def images_to_matrices(data_dir):
+  """
+  Convert all images in data_dir to a four dimensional matrix, with the first dimension as 
+  the total number of images in data_dir, (32 X 32 X 3) for the last three dimension as the width,
+  height and number of colour channel of an image
+  """
   image_files = os.listdir(data_dir)
 
   num_images = len(image_files)
@@ -36,20 +41,26 @@ def images_to_matrices(data_dir):
   return dataset
 
 
-def csv_to_label_matrices(filename):
-  class_name = {
-      'airplane': 0,
-      'automobile': 1,
-      'bird': 2,
-      'cat': 3,
-      'deer': 4,
-      'dog': 5,
-      'frog': 6,
-      'horse': 7,
-      'ship': 9,
-      'truck': 10
-  }
+class_name = {
+    'airplane': 0,
+    'automobile': 1,
+    'bird': 2,
+    'cat': 3,
+    'deer': 4,
+    'dog': 5,
+    'frog': 6,
+    'horse': 7,
+    'ship': 9,
+    'truck': 10
+}
 
+
+def csv_to_label_matrices(filename):
+  """
+  Convert a csv file to an one dimensional array. Each element in the array has an integer value of
+  range [0, 10], which represents 11 different classes as define in the 
+  images_to_matrices.class_name variable
+  """
   data = np.genfromtxt(filename, dtype=None, delimiter=',', skip_header=1)
   labels = [class_name[d[1]] for d in data]
   labels = np.array(labels)
@@ -61,6 +72,10 @@ test_pickle_file = 'cifar10_test.pickle'
 
 
 def extract_data():
+  """
+  Convert all images in traindata and testdata folder and dataset/trainLabel.csv file to matrices,
+  then store them in two pickle files
+  """
   train_data_dir = 'traindata'
   train_label_file = 'dataset/trainLabels.csv'
 
@@ -69,8 +84,6 @@ def extract_data():
 
   test_data_dir = 'testdata'
   test_dataset = images_to_matrices(test_data_dir)
-
-  ## Save all matrices to a pickle file so that we can use them later
 
   # Save train data and labels
   try:
@@ -110,6 +123,10 @@ def extract_data():
 
 
 def load_training_data():
+  """
+  Load all matrices for training data from pickle file that we have saved 
+  using extract_data() function
+  """
   with open(train_pickle_file, 'rb') as f:
     save = pickle.load(f)
     train_dataset = save['train_dataset']
@@ -120,6 +137,10 @@ def load_training_data():
 
 
 def load_test_data():
+  """
+  Load all matrices for testing data from pickle file that we have saved 
+  using extract_data() function
+  """
   with open(test_pickle_file, 'rb') as f:
     save = pickle.load(f)
     test_dataset_1 = save['test_dataset_1']
@@ -136,6 +157,9 @@ def load_test_data():
 
 
 def load_data():
+  """
+  Load all matrices for training and testing data data from pickle file
+  """
   train_dataset, train_labels = load_training_data()
   test_dataset = load_test_data()
   return train_dataset, train_labels, test_dataset
