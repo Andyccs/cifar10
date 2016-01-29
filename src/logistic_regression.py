@@ -1,16 +1,16 @@
-import sys
-import getopt
-from images_to_matrices import load_train_data
-from images_to_matrices import load_test_data
+from common_functions import reformat_dataset
 from images_to_matrices import label_matrices_to_csv
+from images_to_matrices import load_test_data
+from images_to_matrices import load_train_data
 from sklearn.linear_model import LogisticRegression
+import getopt
 import numpy as np
+import sys
 
 
 def run_logistic_regression(train_size=45000, test=False):
   train_dataset, train_labels = load_train_data()
-  train_dataset = train_dataset.reshape((train_dataset.shape[0], train_dataset.shape[1] *
-                                         train_dataset.shape[2] * train_dataset.shape[3]))
+  train_dataset = reformat_dataset(train_dataset)
 
   # Create a validation dataset
   valid_size = 5000

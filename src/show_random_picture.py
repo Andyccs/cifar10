@@ -2,9 +2,9 @@
 # The original images will be converted to BMP files temporary, 
 # and open using default image viewer (typically Paint in Windows and Preview in MAC OS X)
 
+from PIL import Image
 import os
 import random
-from PIL import Image
 
 train_dir = 'traindata/'
 images = os.listdir(train_dir)

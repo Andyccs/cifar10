@@ -1,7 +1,7 @@
-import os
-import numpy as np
 from scipy import ndimage
 import cPickle as pickle
+import numpy as np
+import os
 
 
 def images_to_matrices(data_dir):
