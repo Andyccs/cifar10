@@ -67,10 +67,18 @@ We are ready to start our development now.
 
 # Classifiers
 
-To train a logistic regression classifier using 1000 train data (you can modified `logistic_regression.py` to train with more train data, but it will be slower):
+To train a logistic regression classifier using 1000 train data:
 
 ```Python
+# Accuracy is around 9.7%
 python src/logistic_regression.py
+```
+
+To train a multinomial logistic regression classifier with stochastic gradient descent:
+
+```Python
+# Accuracy is around 10.0%
+python src/multinomial_logistic_regression.py
 ```
 
 # Contribution
