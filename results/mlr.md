@@ -6,12 +6,11 @@
 
 Accuracy of the model when predicting training set (green line) and validation set (red line)
 
-[[mlr_accuracy.png]]
+![Accuracy curve](mlr_accuracy.png)
 
 Loss of the model when predicting training set (green line) and validation set (red line)
 
-[[mlr_loss.png]]
-
+![Loss curve](mlr_loss.png)
 
 Learning Curve for multinomial logistic regression:
 - Train data from 1500, 4000, 6500, 9000, 11500, 14000, 16500, 19000, 21500, 24000, 26500, 29000, 31500, 34000, 36500, 39000, 41500, 440000
@@ -20,4 +19,4 @@ Learning Curve for multinomial logistic regression:
 - Y-axis: loss
 - X-axis: number of training data
 
-[[mlr_learning_curve.png]]
+![Learning curve](mlr_learning_curve.png)
