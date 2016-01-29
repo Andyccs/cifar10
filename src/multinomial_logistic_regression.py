@@ -27,7 +27,7 @@ def build_graph_and_run(test_dataset, weights, biases):
     return np.asarray(predict)[0]
 
 
-def run_multinomial_logistic_regression(train_subset=45000, test=True):
+def run_multinomial_logistic_regression(train_subset=50000, test=True):
   train_dataset, train_labels = load_train_data()
   train_dataset = reformat_dataset(train_dataset)
   train_labels = reformat_labels(train_labels)
@@ -121,7 +121,7 @@ def run_multinomial_logistic_regression(train_subset=45000, test=True):
     plt.show()
 
   if not test:
-    return
+    return train_losses[-1], valid_losses[-1]
 
   part_size = 50000
 
@@ -157,5 +157,23 @@ def run_multinomial_logistic_regression(train_subset=45000, test=True):
   label_matrices_to_csv(test_predicted_labels, 'submission.csv')
 
 
+def plot_learning_curve():
+  t_loss = []
+  v_loss = []
+
+  for m in range(1,19):
+    print 'm: ', m
+    t, v = run_multinomial_logistic_regression(train_subset=m*2500, test=False)
+    t_loss.append(t)
+    v_loss.append(v)
+
+  plt.xlabel('Training Size')
+  plt.ylabel('Loss')
+  plt.plot(range(len(t_loss)), t_loss, color='g', label='Train')
+  plt.plot(range(len(v_loss)), v_loss, color='r', label='Valid')
+  plt.show()
+
+
 if __name__ == '__main__':
-  run_multinomial_logistic_regression(train_subset=45000, test=False)
+  run_multinomial_logistic_regression(train_subset=50000, test=False)
+
