@@ -8,7 +8,7 @@ import numpy as np
 import sys
 
 
-def run_logistic_regression(train_size=45000, test=False):
+def run_logistic_regression(train_subset=45000, test=False):
   train_dataset, train_labels = load_train_data()
   train_dataset = reformat_dataset(train_dataset)
 
@@ -17,12 +17,11 @@ def run_logistic_regression(train_size=45000, test=False):
 
   valid_dataset = train_dataset[:valid_size, :]
   valid_labels = train_labels[:valid_size]
-  train_dataset = train_dataset[valid_size:valid_size + train_size, :]
-  train_labels = train_labels[valid_size:valid_size + train_size]
-  print 'Training', train_dataset.shape, train_labels.shape
-  print 'Validation', valid_dataset.shape, valid_labels.shape
+  train_dataset = train_dataset[valid_size:valid_size + train_subset, :]
+  train_labels = train_labels[valid_size:valid_size + train_subset]
+  print 'Training set size: ', train_dataset.shape, train_labels.shape
+  print 'Validation set size: ', valid_dataset.shape, valid_labels.shape
 
-  # Training
   print 'Training...'
   logreg = LogisticRegression()
   logreg.fit(train_dataset, train_labels)
@@ -50,4 +49,4 @@ def run_logistic_regression(train_size=45000, test=False):
 
 
 if __name__ == '__main__':
-  run_logistic_regression(train_size=1000, test=True)
+  run_logistic_regression(train_subset=1000, test=True)
