@@ -56,7 +56,11 @@ def csv_to_label_matrices(filename):
   return labels
 
 
-if __name__ == '__main__':
+train_pickle_file = 'cifar10_train.pickle'
+test_pickle_file = 'cifar10_test.pickle'
+
+
+def extract_data():
   train_data_dir = 'traindata'
   train_label_file = 'dataset/trainLabels.csv'
 
@@ -69,8 +73,6 @@ if __name__ == '__main__':
   ## Save all matrices to a pickle file so that we can use them later
 
   # Save train data and labels
-  train_pickle_file = 'cifar10_train.pickle'
-
   try:
     train_file = open(train_pickle_file, 'wb')
     save = {'train_dataset': train_dataset, 'train_labels': train_labels}
@@ -81,8 +83,8 @@ if __name__ == '__main__':
     raise
 
   # Save test data
-  test_pickle_file = 'cifar10_test.pickle'
-
+  # If we save all 300,000 test data as one part, there will be an unknown error
+  # We save test data as 6 parts in the pickle file
   test_dataset_1 = test_dataset[0:50000]
   test_dataset_2 = test_dataset[50000:100000]
   test_dataset_3 = test_dataset[100000:150000]
@@ -105,3 +107,39 @@ if __name__ == '__main__':
   except Exception as e:
     print 'Unable to save data to', test_pickle_file, ':', e
     raise
+
+
+def load_training_data():
+  with open(train_pickle_file, 'rb') as f:
+    save = pickle.load(f)
+    train_dataset = save['train_dataset']
+    train_labels = save['train_labels']
+    del save  # hint to help gc free up memory
+    print 'Training set', train_dataset.shape, train_labels.shape
+    return train_dataset, train_labels
+
+
+def load_test_data():
+  with open(test_pickle_file, 'rb') as f:
+    save = pickle.load(f)
+    test_dataset_1 = save['test_dataset_1']
+    test_dataset_2 = save['test_dataset_2']
+    test_dataset_3 = save['test_dataset_3']
+    test_dataset_4 = save['test_dataset_4']
+    test_dataset_5 = save['test_dataset_5']
+    test_dataset_6 = save['test_dataset_6']
+    del save
+    test_dataset = np.concatenate((test_dataset_1, test_dataset_2, test_dataset_3, test_dataset_4,
+                                   test_dataset_5, test_dataset_6))
+    print 'Testing set', test_dataset.shape
+    return test_dataset
+
+
+def load_data():
+  train_dataset, train_labels = load_training_data()
+  test_dataset = load_test_data()
+  return train_dataset, train_labels, test_dataset
+
+
+if __name__ == '__main__':
+  extract_data()
