@@ -65,6 +65,14 @@ At this point, we already have compressed data in `dataset` folder, images in `t
 
 We are ready to start our development now. 
 
+# Classifiers
+
+To train a logistic regression classifier using 1000 train data (you can modified `logistic_regression.py` to train with more train data, but it will be slower):
+
+```Python
+python src/logistic_regression.py
+```
+
 # Contribution
 
 Please follow the guide in [CONTRIBUTING.md](CONTRIBUTING.md)
