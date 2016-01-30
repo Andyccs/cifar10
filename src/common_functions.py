@@ -29,7 +29,10 @@ def accuracy(predictions, labels):
   return (100.0 * np.sum(np.argmax(predictions, 1) == np.argmax(labels, 1)) / predictions.shape[0])
 
 
-def get_train_valid_data(train_subset=45000, valid_size=5000, reformat_data=True, reformat_label=True):
+def get_train_valid_data(train_subset=45000,
+                         valid_size=5000,
+                         reformat_data=True,
+                         reformat_label=True):
   if train_subset + valid_size > 50000:
     raise Exception('train_subset + valid_size cannot be more than 50000')
   elif train_subset < 128:

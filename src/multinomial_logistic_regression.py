@@ -52,14 +52,16 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
     biases = tf.Variable(tf.zeros([num_labels]))
 
     train_logits = model(tf_train_dataset, weights, biases)
-    train_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(train_logits, tf_train_labels))
+    train_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(train_logits,
+                                                                        tf_train_labels))
     train_prediction = tf.nn.softmax(train_logits)
 
     optimizer = tf.train.GradientDescentOptimizer(0.5).minimize(train_loss)
 
     # Predictions for the training, validation, and test data.
     valid_logits = model(tf_valid_dataset, weights, biases)
-    valid_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(valid_logits, tf_valid_labels))
+    valid_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(valid_logits,
+                                                                        tf_valid_labels))
     valid_prediction = tf.nn.softmax(valid_logits)
 
   print 'Training...'

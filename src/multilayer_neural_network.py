@@ -42,20 +42,21 @@ def run_multilayer_neural_network(train_subset=45000, valid_size=5000, test=Fals
       return u2
 
     train_logits = model(tf_train_dataset)
-    train_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(train_logits, tf_train_labels))
+    train_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(train_logits,
+                                                                        tf_train_labels))
     train_prediction = tf.nn.softmax(train_logits)
 
     optimizer = tf.train.GradientDescentOptimizer(0.5).minimize(train_loss)
 
     valid_logits = model(tf_valid_dataset)
-    valid_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(valid_logits, tf_valid_labels))
+    valid_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(valid_logits,
+                                                                        tf_valid_labels))
     valid_prediction = tf.nn.softmax(valid_logits)
 
   train_losses = []
   valid_losses = []
   train_accuracies = []
   valid_accuracies = []
-
   num_steps = 3001
 
   with tf.Session(graph=graph) as session:
@@ -69,7 +70,9 @@ def run_multilayer_neural_network(train_subset=45000, valid_size=5000, test=Fals
       batch_labels = train_labels[offset:(offset + batch_size), :]
       feed_dict = {tf_train_dataset: batch_data, tf_train_labels: batch_labels}
 
-      _, tl, predictions = session.run([optimizer, train_loss, train_prediction], feed_dict=feed_dict)
+      _, tl, predictions = session.run(
+          [optimizer, train_loss, train_prediction],
+          feed_dict=feed_dict)
 
       train_losses.append(tl)
       valid_losses.append(valid_loss.eval())
