@@ -72,8 +72,6 @@ def run_multilayer_neural_network(train_subset=45000, valid_size=5000, test=Fals
       valid_accuracies.append(accuracy(valid_prediction, valid_labels))
 
       if step % 100 == 0:
-        print_loss(train_losses[-1], valid_losses[-1])
-        print_accuracy(train_accuracies[-1], valid_accuracies[-1])
         print('Complete %.2f %%' % (float(step) / num_steps * 100.0))
 
     # Plot losses and accuracies

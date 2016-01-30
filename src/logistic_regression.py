@@ -30,8 +30,9 @@ def run_logistic_regression(train_subset=45000, valid_size=5000, test=False):
   train_predict = logreg.predict(train_dataset)
   valid_predict = logreg.predict(valid_dataset)
 
-  print 'Training accuracy: %.2f%%' % accuracy(train_predict, train_labels)
-  print 'Validation accuracy: %.2f%%' % accuracy(valid_predict, valid_labels)
+  train_accuracy = accuracy(train_predict, train_labels)
+  valid_accuracy = accuracy(valid_predict, valid_labels)
+  print_accuracy(train_accuracy, valid_accuracy)
 
   # Predict test data
   if (not test):
