@@ -1,18 +1,10 @@
-from common_functions import get_train_valid_data, reformat_dataset
-from constants import image_size, color_channel, num_labels
+from common_functions import get_train_valid_data, reformat_dataset, accuracy, print_loss, print_accuracy, plot
+from constants import num_labels, num_features
 from images_to_matrices import label_matrices_to_csv
 from images_to_matrices import load_test_data
 from images_to_matrices import load_train_data
-import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-
-
-def accuracy(predictions, labels):
-  """
-  Calculate the accuracy of two (n X num_labels) matrices
-  """
-  return (100.0 * np.sum(np.argmax(predictions, 1) == np.argmax(labels, 1)) / predictions.shape[0])
 
 
 def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, test=True):
@@ -47,14 +39,12 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
 
   graph = tf.Graph()
   with graph.as_default():
-    tf_train_dataset = tf.placeholder(tf.float32,
-                                      shape=(batch_size, image_size * image_size * color_channel))
+    tf_train_dataset = tf.placeholder(tf.float32, shape=(batch_size, num_features))
     tf_train_labels = tf.placeholder(tf.float32, shape=(batch_size, num_labels))
     tf_valid_dataset = tf.constant(valid_dataset)
     tf_valid_labels = tf.constant(valid_labels)
 
-    weights = tf.Variable(tf.truncated_normal([image_size * image_size * color_channel, num_labels
-                                              ]))
+    weights = tf.Variable(tf.truncated_normal([num_features, num_labels]))
     biases = tf.Variable(tf.zeros([num_labels]))
 
     logits = tf.matmul(tf_train_dataset, weights) + biases
@@ -72,7 +62,7 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
 
   num_steps = 3001
 
-  trained_weights = np.ndarray(shape=(image_size * image_size * color_channel, num_labels))
+  trained_weights = np.ndarray(shape=(num_features, num_labels))
   trained_biases = np.ndarray(shape=(num_labels))
 
   train_losses = []
@@ -100,24 +90,14 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
       valid_losses.append(vl)
       train_accuracies.append(accuracy(predictions, batch_labels))
       valid_accuracies.append(accuracy(valid_prediction.eval(), valid_labels))
+      if step % 100 == 0:
+        print('Complete %.2f %%' % (float(step) / num_steps * 100.0))
 
     # Plot losses and accuracies
-    print 'Training loss: ', train_losses[-1]
-    print 'Valid loss at step:', valid_losses[-1]
-    print 'Training accuracy: %.2f%%' % train_accuracies[-1]
-    print 'Validation accuracy: %.2f%%' % valid_accuracies[-1]
-
-    plt.xlabel('Iteration')
-    plt.ylabel('Loss')
-    plt.plot(range(len(train_losses)), train_losses, color='g', label='Train')
-    plt.plot(range(len(train_losses)), valid_losses, color='r', label='Valid')
-    plt.show()
-
-    plt.xlabel('Iteration')
-    plt.ylabel('Accuracy')
-    plt.plot(range(len(train_accuracies)), train_accuracies, color='g', label='Train')
-    plt.plot(range(len(valid_accuracies)), valid_accuracies, color='r', label='Valid')
-    plt.show()
+    print_loss(train_losses[-1], valid_losses[-1])
+    print_accuracy(train_accuracies[-1], valid_accuracies[-1])
+    plot(train_losses, valid_losses, 'Iteration', 'Loss')
+    plot(train_accuracies, valid_accuracies, 'Iteration', 'Accuracy')
 
   if not test:
     return train_losses[-1], valid_losses[-1]
@@ -126,10 +106,8 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
 
   test_graph = tf.Graph()
   with test_graph.as_default():
-    tf_test_dataset = tf.placeholder(tf.float32,
-                                     shape=(part_size, image_size * image_size * color_channel))
-    weights = tf.placeholder(tf.float32,
-                             shape=(image_size * image_size * color_channel, num_labels))
+    tf_test_dataset = tf.placeholder(tf.float32, shape=(part_size, num_features))
+    weights = tf.placeholder(tf.float32, shape=(num_features, num_labels))
     biases = tf.placeholder(tf.float32, shape=(num_labels))
 
     test_prediction = tf.nn.softmax(tf.matmul(tf_test_dataset, weights) + biases)
@@ -173,11 +151,7 @@ def plot_learning_curve():
     t_loss.append(t)
     v_loss.append(v)
 
-  plt.xlabel('Training Size')
-  plt.ylabel('Loss')
-  plt.plot(range(len(t_loss)), t_loss, color='g', label='Train')
-  plt.plot(range(len(v_loss)), v_loss, color='r', label='Valid')
-  plt.show()
+  plot(t_loss, vloss, 'Training Size', 'Loss')
 
 
 if __name__ == '__main__':

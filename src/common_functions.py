@@ -1,6 +1,32 @@
 from constants import image_size, color_channel, num_labels
 from images_to_matrices import load_train_data
+import matplotlib.pyplot as plt
 import numpy as np
+
+
+def print_loss(train_loss, validation_loss):
+  print 'Training loss:', train_loss
+  print 'Valid loss at step:', validation_loss
+
+
+def print_accuracy(train_accuracy, validation_accuracy):
+  print 'Training accuracy: %.2f%%' % train_accuracy
+  print 'Validation accuracy: %.2f%%' % validation_accuracy
+
+
+def plot(v1, v2, xlabel, ylabel):
+  plt.xlabel(xlabel)
+  plt.ylabel(ylabel)
+  plt.plot(range(len(v1)), v1, color='g', label='v1')
+  plt.plot(range(len(v2)), v2, color='r', label='v2')
+  plt.show()
+
+
+def accuracy(predictions, labels):
+  """
+  Calculate the accuracy of two (n X num_labels) matrices
+  """
+  return (100.0 * np.sum(np.argmax(predictions, 1) == np.argmax(labels, 1)) / predictions.shape[0])
 
 
 def get_train_valid_data(train_subset=45000, valid_size=5000):
