@@ -1,4 +1,4 @@
-from common_functions import reformat_dataset, reformat_labels
+from common_functions import get_train_valid_data, reformat_dataset
 from constants import image_size, color_channel, num_labels
 from images_to_matrices import label_matrices_to_csv
 from images_to_matrices import load_test_data
@@ -28,6 +28,7 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
     Loss = cross_entropy(Y, labels)
 
   We use stochastic gradient descent, with batch size of 128, learning rate of 0.5 and 3001 steps. 
+  We do not use any regularization because it does not improve the accuracy for this case. 
   At the end of the training, accuracy curve, loss curve will be plotted.
 
   Take note that train_subset + valid_size cannot be more than 50000 and train_subset cannot be 
@@ -38,17 +39,8 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
     valid_size -- number data in validation set
     test -- if true, output a .csv file that predict 300000 data in testing set
   """
-  train_dataset, train_labels = load_train_data()
-  train_dataset = reformat_dataset(train_dataset)
-  train_labels = reformat_labels(train_labels)
-
-  # Create a validation dataset
-  valid_dataset = train_dataset[:valid_size, :]
-  valid_labels = train_labels[:valid_size]
-  train_dataset = train_dataset[valid_size:valid_size + train_subset, :]
-  train_labels = train_labels[valid_size:valid_size + train_subset]
-  print 'Training set size:', train_dataset.shape, train_labels.shape
-  print 'Validation set size:', valid_dataset.shape, valid_labels.shape
+  train_dataset, train_labels, valid_dataset, valid_labels = \
+      get_train_valid_data(train_subset, valid_size)
 
   print 'Building graph...'
   batch_size = 128
@@ -189,4 +181,4 @@ def plot_learning_curve():
 
 
 if __name__ == '__main__':
-  run_multinomial_logistic_regression(train_subset=50000, test=False)
+  run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, test=False)

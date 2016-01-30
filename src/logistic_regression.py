@@ -8,12 +8,13 @@ import numpy as np
 import sys
 
 
-def run_logistic_regression(train_subset=45000, test=False):
+def accuracy(predictions, labels):
+  return 100.0 * np.sum(predictions == labels) / predictions.shape[0]
+
+
+def run_logistic_regression(train_subset=45000, valid_size=5000, test=False):
   train_dataset, train_labels = load_train_data()
   train_dataset = reformat_dataset(train_dataset)
-
-  # Create a validation dataset
-  valid_size = 5000
 
   valid_dataset = train_dataset[:valid_size, :]
   valid_labels = train_labels[:valid_size]
@@ -28,9 +29,6 @@ def run_logistic_regression(train_subset=45000, test=False):
 
   train_predict = logreg.predict(train_dataset)
   valid_predict = logreg.predict(valid_dataset)
-
-  def accuracy(predictions, labels):
-    return 100.0 * np.sum(predictions == labels) / predictions.shape[0]
 
   print 'Training accuracy: %.2f%%' % accuracy(train_predict, train_labels)
   print 'Validation accuracy: %.2f%%' % accuracy(valid_predict, valid_labels)
@@ -49,4 +47,4 @@ def run_logistic_regression(train_subset=45000, test=False):
 
 
 if __name__ == '__main__':
-  run_logistic_regression(train_subset=1000, test=True)
+  run_logistic_regression(train_subset=1000, test=False)
