@@ -69,16 +69,22 @@ We are ready to start our development now.
 
 To train a logistic regression classifier using 1000 train data:
 
-```Python
+```Shell
 # Accuracy is around 9.7%
 python src/logistic_regression.py
 ```
 
 To train a multinomial logistic regression classifier with stochastic gradient descent:
 
-```Python
+```Shell
 # Accuracy is around 10.0%
 python src/multinomial_logistic_regression.py
+```
+
+To train a multilayer perceptron classifier with stochastic gradient descent:
+
+```Shell
+python src/multilayer_neural_network.py
 ```
 
 # Result
