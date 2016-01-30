@@ -81,6 +81,10 @@ To train a multinomial logistic regression classifier with stochastic gradient d
 python src/multinomial_logistic_regression.py
 ```
 
+# Result
+
+- [Multinomial Logistic Regression](results/mlr.md)
+
 # Contribution
 
 Please follow the guide in [CONTRIBUTING.md](CONTRIBUTING.md)
