@@ -7,6 +7,10 @@ import numpy as np
 import tensorflow as tf
 
 
+def model(data, weights, biases):
+  return tf.matmul(data, weights) + biases
+
+
 def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, test=True):
   """
   In Multinomial Logistic Regression, we have 
@@ -47,16 +51,16 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
     weights = tf.Variable(tf.truncated_normal([num_features, num_labels]))
     biases = tf.Variable(tf.zeros([num_labels]))
 
-    logits = tf.matmul(tf_train_dataset, weights) + biases
-    train_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, tf_train_labels))
+    train_logits = model(tf_train_dataset, weights, biases)
+    train_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(train_logits, tf_train_labels))
+    train_prediction = tf.nn.softmax(train_logits)
 
     optimizer = tf.train.GradientDescentOptimizer(0.5).minimize(train_loss)
 
     # Predictions for the training, validation, and test data.
-    train_prediction = tf.nn.softmax(logits)
-    valid_prediction = tf.nn.softmax(tf.matmul(tf_valid_dataset, weights) + biases)
-    valid_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
-        tf.matmul(tf_valid_dataset, weights) + biases, tf_valid_labels))
+    valid_logits = model(tf_valid_dataset, weights, biases)
+    valid_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(valid_logits, tf_valid_labels))
+    valid_prediction = tf.nn.softmax(valid_logits)
 
   print 'Training...'
 
@@ -107,10 +111,11 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
   test_graph = tf.Graph()
   with test_graph.as_default():
     tf_test_dataset = tf.placeholder(tf.float32, shape=(part_size, num_features))
-    weights = tf.placeholder(tf.float32, shape=(num_features, num_labels))
-    biases = tf.placeholder(tf.float32, shape=(num_labels))
+    weights = tf.constant(trained_weights)
+    biases = tf.constant(trained_biases)
 
-    test_prediction = tf.nn.softmax(tf.matmul(tf_test_dataset, weights) + biases)
+    logits = model(tf_test_dataset, weights, biases)
+    test_prediction = tf.nn.softmax(logits)
 
   test_dataset = load_test_data()
   test_dataset = reformat_dataset(test_dataset)
@@ -119,15 +124,10 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
   test_predicted_labels = np.ndarray(shape=(300000, 10))
 
   for i in range(total_part):
+    test_dataset_part = test_dataset[i * part_size:(i + 1) * part_size]
     with tf.Session(graph=test_graph) as session:
       tf.initialize_all_variables().run()
-
-      test_dataset_part = test_dataset[i * part_size:(i + 1) * part_size]
-      feed_dict = {
-          tf_test_dataset: test_dataset_part,
-          weights: trained_weights,
-          biases: trained_biases
-      }
+      feed_dict = {tf_test_dataset: test_dataset_part}
       predict = session.run([test_prediction], feed_dict=feed_dict)
       test_predicted_labels[i * part_size:(i + 1) * part_size, :] = np.asarray(predict)[0]
 

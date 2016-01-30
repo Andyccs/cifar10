@@ -19,26 +19,37 @@ def run_multilayer_neural_network(train_subset=45000, valid_size=5000, test=Fals
 
   print 'Building graph...'
 
+  batch_size = 128
   hidden_layer_unit_1 = 5000
 
   graph = tf.Graph()
   with graph.as_default():
-    tf_train_dataset = tf.placeholder(tf.float32, shape=(None, num_features))
-    tf_train_labels = tf.placeholder(tf.float32, shape=(None, num_labels))
+    tf_train_dataset = tf.placeholder(tf.float32, shape=(batch_size, num_features))
+    tf_train_labels = tf.placeholder(tf.float32, shape=(batch_size, num_labels))
+    tf_valid_dataset = tf.constant(valid_dataset)
+    tf_valid_labels = tf.constant(valid_labels)
 
-    w1 = weight_variable([num_features, hidden_layer_unit_1])
-    b1 = bias_variable([hidden_layer_unit_1])
-    u1 = tf.matmul(tf_train_dataset, w1) + b1
+    layer1_weights = weight_variable([num_features, hidden_layer_unit_1])
+    layer1_bias = bias_variable([hidden_layer_unit_1])
 
-    y1 = tf.nn.relu(u1)
-    w2 = weight_variable([hidden_layer_unit_1, num_labels])
-    b2 = bias_variable([num_labels])
-    u2 = tf.matmul(y1, w2) + b2
+    layer2_weights = weight_variable([hidden_layer_unit_1, num_labels])
+    layer2_biases = bias_variable([num_labels])
 
-    loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(u2, tf_train_labels))
-    optimizer = tf.train.GradientDescentOptimizer(0.5).minimize(loss)
+    def model(data):
+      u1 = tf.matmul(data, layer1_weights) + layer1_bias
+      y1 = tf.nn.relu(u1)
+      u2 = tf.matmul(y1, layer2_weights) + layer2_biases
+      return u2
 
-    train_prediction = tf.nn.softmax(u2)
+    train_logits = model(tf_train_dataset)
+    train_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(train_logits, tf_train_labels))
+    train_prediction = tf.nn.softmax(train_logits)
+
+    optimizer = tf.train.GradientDescentOptimizer(0.5).minimize(train_loss)
+
+    valid_logits = model(tf_valid_dataset)
+    valid_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(valid_logits, tf_valid_labels))
+    valid_prediction = tf.nn.softmax(valid_logits)
 
   train_losses = []
   valid_losses = []
@@ -46,7 +57,6 @@ def run_multilayer_neural_network(train_subset=45000, valid_size=5000, test=Fals
   valid_accuracies = []
 
   num_steps = 3001
-  batch_size = 128
 
   with tf.Session(graph=graph) as session:
     tf.initialize_all_variables().run()
@@ -59,17 +69,12 @@ def run_multilayer_neural_network(train_subset=45000, valid_size=5000, test=Fals
       batch_labels = train_labels[offset:(offset + batch_size), :]
       feed_dict = {tf_train_dataset: batch_data, tf_train_labels: batch_labels}
 
-      _, tl, predictions = session.run([optimizer, loss, train_prediction], feed_dict=feed_dict)
+      _, tl, predictions = session.run([optimizer, train_loss, train_prediction], feed_dict=feed_dict)
 
       train_losses.append(tl)
+      valid_losses.append(valid_loss.eval())
       train_accuracies.append(accuracy(predictions, batch_labels))
-
-      validation_feed_dict = {tf_train_dataset: valid_dataset, tf_train_labels: valid_labels}
-      vl = loss.eval(feed_dict=validation_feed_dict)
-      valid_prediction = train_prediction.eval(feed_dict=validation_feed_dict)
-
-      valid_losses.append(vl)
-      valid_accuracies.append(accuracy(valid_prediction, valid_labels))
+      valid_accuracies.append(accuracy(valid_prediction.eval(), valid_labels))
 
       if step % 100 == 0:
         print('Complete %.2f %%' % (float(step) / num_steps * 100.0))
