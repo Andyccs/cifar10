@@ -101,6 +101,7 @@ COOKIE_SAVE_FILE:~/.lynx_cookies
 You cannot used linked account (Google, Yahoo, etc. ) to login in Lynx. In order to login in to Kaggle, you need to setup a username and password, as described by [Kaggle blog](http://blog.kaggle.com/2015/05/19/introducing-new-usernames-vanity-urls/).
 
 *Source: [Kaggle Forum](https://www.kaggle.com/c/belkin-energy-disaggregation-competition/forums/t/5118/downloading-data-via-wget/96790)*
+*Source: [Erikbern Github Gist](https://gist.github.com/erikbern/78ba519b97b440e10640)*
 
 # Classifiers
 
