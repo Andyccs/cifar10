@@ -10,6 +10,8 @@ Let's start by installing all required modules for this project. We install the 
 - [Matplotlib](http://matplotlib.org/users/installing.html)
 - [Scipy](http://www.scipy.org/install.html)
 
+*If you have trouble waiting for NVDIA approval so that you can download CUDNN, you can use [this link](http://developer.download.nvidia.com/compute/redist/cudnn/v2/cudnn-6.5-linux-x64-v2.tgz) to download the file.*
+
 Then, we install all other modules using the following commands:
 
 ```Shell
