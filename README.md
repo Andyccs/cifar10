@@ -75,6 +75,33 @@ At this point, we already have compressed data in `dataset` folder, images in `t
 
 We are ready to start our development now. 
 
+# Using AWS EC2
+
+If you do not have a GPU with compute capability of 3.5 and above, you probably want to use Amazon EC2 instance. For this project, we can use GPU instance `g2.2xlarge` specifications with the image `ami-cf5028a5` at North Virginia. By using this image, Tensorflow with GPU support is installed. 
+
+We cannot use wget or curl to download data from Kaggle. The only solution is to use Lynx (a text based web browser) to download the files:
+
+1. Install Lynx
+2. Create a ~/.lynxrc configuration file
+3. Call the browser `lynx -cfg=~/.lynxrc www.kaggle.com`
+4. Log in, browse to the competition data page and accept the terms and permissions (if you haven't yet)
+5. Select the link to the file you want to download, and press "d". The download will start.
+6. Once the download is finished, select "save file to disk" and provide filename/destination where you want to store the data
+7. Repeat for other files
+
+```
+# ~/.lynxrc configuration file
+SET_COOKIES:TRUE
+ACCEPT_ALL_COOKIES:TRUE
+PERSISTENT_COOKIES:TRUE
+COOKIE_FILE:~/.lynx_cookies
+COOKIE_SAVE_FILE:~/.lynx_cookies
+```
+
+You cannot used linked account (Google, Yahoo, etc. ) to login in Lynx. In order to login in to Kaggle, you need to setup a username and password, as described by [Kaggle blog](http://blog.kaggle.com/2015/05/19/introducing-new-usernames-vanity-urls/).
+
+*Source: [Kaggle Forum](https://www.kaggle.com/c/belkin-energy-disaggregation-competition/forums/t/5118/downloading-data-via-wget/96790)*
+
 # Classifiers
 
 To train a logistic regression classifier using 1000 train data:
