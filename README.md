@@ -4,7 +4,13 @@ CZ4041 Machine Learning Assignment
 
 # Getting Started
 
-Let's start by installing all required modules for this project. We install TensorFlow by following [the guide from official website](https://www.tensorflow.org/versions/0.6.0/get_started/os_setup.html). Then, we install all other modules using the following commands:
+Let's start by installing all required modules for this project. We install the following requirements from official website:
+
+- [TensorFlow](https://www.tensorflow.org/versions/0.6.0/get_started/os_setup.html)
+- [Matplotlib](http://matplotlib.org/users/installing.html)
+- [Scipy](http://www.scipy.org/install.html)
+
+Then, we install all other modules using the following commands:
 
 ```Shell
 pip install -r requirements.txt
