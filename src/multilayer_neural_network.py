@@ -4,11 +4,15 @@ import tensorflow as tf
 
 
 def weight_variable(shape):
+  """
+  Return a weight variable with given shape. Values in the variable are normally distribution
+  """
   initial = tf.truncated_normal(shape)
   return tf.Variable(initial)
 
 
 def bias_variable(shape):
+  """Return a bias varaible with given shape. All values are zero. """
   initial = tf.zeros(shape)
   return tf.Variable(initial)
 
