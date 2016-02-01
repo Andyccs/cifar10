@@ -77,7 +77,7 @@ We are ready to start our development now.
 
 # Using AWS EC2
 
-If you do not have a GPU with compute capability of 3.5 and above, you probably want to use Amazon EC2 instance. For this project, we can use GPU instance `g2.2xlarge` specifications with the image `ami-cf5028a5` at North Virginia. By using this image, Tensorflow with GPU support is installed. 
+If you do not have a GPU with compute capability of 3.5 and above, you probably want to use Amazon EC2 instance. For this project, we can use GPU instance `g2.2xlarge` specifications with the image `ami-cf5028a5` at North Virginia. By using this image, Tensorflow with GPU support is installed. You should use at least need a total of 14 GB of EBS Volume. 
 
 We cannot use wget or curl to download data from Kaggle. The only solution is to use Lynx (a text based web browser) to download the files:
 
