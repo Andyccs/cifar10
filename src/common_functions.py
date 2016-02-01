@@ -15,6 +15,11 @@ def print_accuracy(train_accuracy, validation_accuracy):
 
 
 def plot(v1, v2, xlabel, ylabel):
+  """
+  Plot a 2D graph using two variables, for example, a graph with training accuracy (as v1) and 
+  validation accuracy (as v2) against number of iteration (x-axis) and a graph of 
+  training loss (v1) and validation loss (v2) against number of iteration (x-axis)
+  """
   plt.xlabel(xlabel)
   plt.ylabel(ylabel)
   plt.plot(range(len(v1)), v1, color='g', label='v1')
@@ -33,10 +38,22 @@ def get_train_valid_data(train_subset=45000,
                          valid_size=5000,
                          reformat_data=True,
                          reformat_label=True):
+  """
+  Get dataset from cifar10_train.pickle file, convert the data type of numpy.float32, and 
+  separate the dataset into training set and validation set. 
+
+  Take note that train_subset + valid_size cannot be more than 50000.
+
+  Keyword arguments:
+    train_subset -- the number of training set
+    valid_size -- the number of validation set
+    reformat_data -- if True, reformat the dataset to 2 dimension matrix. Else, keep the dataset 
+    as 4 dimension matrix
+    reformat_label -- if True, reformat the labels to (n X num_labels) dimension matrix. Else, 
+    keep the labels as 2 dimension matrix
+  """
   if train_subset + valid_size > 50000:
     raise Exception('train_subset + valid_size cannot be more than 50000')
-  elif train_subset < 128:
-    raise Exception('train_subset cannot be less than 128 (the batch size)')
 
   train_dataset, train_labels = load_train_data()
 
@@ -61,6 +78,7 @@ def get_train_valid_data(train_subset=45000,
 
 
 def reformat_dataset(dataset):
+  """reformat the dataset to 2 dimension matrix"""
   # change the dataset shape from
   # (50000, 32, 32, 3)
   # (50000, 3, 32, 32)
@@ -69,4 +87,5 @@ def reformat_dataset(dataset):
 
 
 def reformat_labels(labels):
+  """reformat the labels to (n X num_labels) dimension matrix"""
   return (np.arange(num_labels) == labels[:, None])

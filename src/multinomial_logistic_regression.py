@@ -27,9 +27,6 @@ def run_multinomial_logistic_regression(train_subset=45000, valid_size=5000, tes
   We do not use any regularization because it does not improve the accuracy for this case. 
   At the end of the training, accuracy curve, loss curve will be plotted.
 
-  Take note that train_subset + valid_size cannot be more than 50000 and train_subset cannot be 
-  less than 128 (the batch size)
-
   Keyword arguments:
     train_subset -- the number of training example
     valid_size -- number data in validation set
