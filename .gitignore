@@ -2,8 +2,10 @@ submission.csv
 cifar10_test.pickle
 cifar10_train.pickle
 traindata/
+smalltraindata/
 testdata/
 dataset/
+src/experiment*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,4 +1,4 @@
-from common_functions import reformat_dataset
+from common_functions import reformat_dataset, print_accuracy
 from images_to_matrices import label_matrices_to_csv
 from images_to_matrices import load_test_data
 from images_to_matrices import load_train_data
