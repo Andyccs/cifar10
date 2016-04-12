@@ -1,3 +1,5 @@
+Note: this is a fail project
+
 # cifar10
 
 CZ4041 Machine Learning Assignment
